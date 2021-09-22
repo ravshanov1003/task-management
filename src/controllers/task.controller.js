@@ -30,8 +30,21 @@ async function getTasks(req, res) {
     }
 }
 
+async function getTask(req, res) {
+    const { id } = req.params;
+    try {
+        const task = await taskModel.findOne({ _id: id })
+        res.send(task)
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
+}
+
 module.exports = {
     createTask,
     getTasks,
+    getTask,
 
 }
