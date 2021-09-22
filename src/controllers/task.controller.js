@@ -19,6 +19,19 @@ async function createTask(req, res) {
     }
 }
 
+async function getTasks(req, res) {
+    try {
+        const tasks = await taskModel.find()
+        res.send(tasks)
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
+}
+
 module.exports = {
     createTask,
+    getTasks,
+
 }
