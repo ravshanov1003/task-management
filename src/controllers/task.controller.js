@@ -64,9 +64,24 @@ async function updateStatus(req, res) {
     }
 }
 
+async function deleteTask(req, res) {
+    const { id } = req.params
+    try {
+        await taskModel.findOneAndDelete({ _id: id })
+        res.send({
+            message: "Task has been deleted successfully"
+        })
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
+}
+
 module.exports = {
     createTask,
     getTasks,
     getTask,
     updateStatus,
+    deleteTask
 }
