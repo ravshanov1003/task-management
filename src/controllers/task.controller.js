@@ -34,7 +34,29 @@ async function getTask(req, res) {
     const { id } = req.params;
     try {
         const task = await taskModel.findOne({ _id: id })
+        if (!task) {
+            return res.send({
+                message: "Task not founded"
+            })
+        }
         res.send(task)
+    } catch (error) {
+        res.status(500).send({
+            message: error.message
+        })
+    }
+}
+
+async function updateStatus(req, res) {
+    const { id } = req.params;
+    const { status } = req.body;
+    try {
+        await taskModel.findOneAndUpdate({ _id: id }, { status })
+            // task.status = status
+            // await task.save()
+        res.send({
+            message: "Status has been updated"
+        })
     } catch (error) {
         res.status(500).send({
             message: error.message
@@ -46,5 +68,5 @@ module.exports = {
     createTask,
     getTasks,
     getTask,
-
+    updateStatus,
 }
